@@ -1,6 +1,6 @@
 # 🏨 Zenith — Dynamic Hotel Pricing & Availability Engine
 
-[![CI Workflow](https://github.com/USER/zenith-hotel-pricing-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/USER/zenith-hotel-pricing-platform/actions)
+[![CI Workflow](https://github.com/RahulAditya22/zenith-hotel-pricing-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/RahulAditya22/zenith-hotel-pricing-platform/actions)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat&logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![React](https://img.shields.io/badge/React-18.3+-61DAFB?style=flat&logo=react&logoColor=black)](https://react.dev)
