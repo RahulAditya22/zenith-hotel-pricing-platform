@@ -7,8 +7,8 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=flat&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Render](https://img.shields.io/badge/Render-Deployed-46E3B7?style=flat&logo=render&logoColor=black)](https://render.com)
 
-> **Live Production Demo**: [https://zenith-frontend.onrender.com](https://zenith-frontend.onrender.com)  
-> **Interactive OpenAPI Docs**: [https://zenith-backend.onrender.com/docs](https://zenith-backend.onrender.com/docs)
+> **Live Production Demo**: [https://zenith-hotel-frontend.onrender.com](https://zenith-hotel-frontend.onrender.com)  
+> **Interactive OpenAPI Docs**: [https://zenith-hotel-backend.onrender.com/docs](https://zenith-hotel-backend.onrender.com/docs)
 
 ---
 
@@ -43,7 +43,7 @@ flowchart TD
     Chart -->|Fetch Trend| API
     API --> CacheLayer
     CacheLayer -->|Cache Miss| Engine
-    Engine --> BookingService
+    BookingService --> Engine
     BookingService -->|Async Transactions + Lock| DB
 ```
 

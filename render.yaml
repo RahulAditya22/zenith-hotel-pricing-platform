@@ -1,7 +1,7 @@
 services:
   # Backend Web Service (FastAPI + Uvicorn)
   - type: web
-    name: zenith-backend
+    name: zenith-hotel-backend
     env: python
     region: oregon
     plan: free
@@ -15,11 +15,11 @@ services:
       - key: DATABASE_URL
         value: sqlite+aiosqlite:///./zenith_hotel.db
       - key: CORS_ORIGINS
-        value: '["https://zenith-frontend.onrender.com"]'
+        value: '["https://zenith-hotel-frontend.onrender.com"]'
 
   # Frontend Static Site (React + Vite)
   - type: web
-    name: zenith-frontend
+    name: zenith-hotel-frontend
     env: static
     rootDir: frontend
     buildCommand: "npm install && npm run build"
@@ -30,4 +30,4 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        value: https://zenith-backend.onrender.com
+        value: https://zenith-hotel-backend.onrender.com
