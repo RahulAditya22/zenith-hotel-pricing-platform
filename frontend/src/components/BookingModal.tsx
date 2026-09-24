@@ -6,11 +6,19 @@ import type { RoomSearchResult, Reservation } from '../types';
 
 interface BookingModalProps {
   room: RoomSearchResult | null;
+  checkInDate: string;
+  checkOutDate: string;
   onClose: () => void;
   onSuccess: () => void;
 }
 
-export const BookingModal: React.FC<BookingModalProps> = ({ room, onClose, onSuccess }) => {
+export const BookingModal: React.FC<BookingModalProps> = ({
+  room,
+  checkInDate,
+  checkOutDate,
+  onClose,
+  onSuccess,
+}) => {
   const [guestName, setGuestName] = useState('');
   const [guestEmail, setGuestEmail] = useState('');
   const [guestCount, setGuestCount] = useState(1);
@@ -30,17 +38,25 @@ export const BookingModal: React.FC<BookingModalProps> = ({ room, onClose, onSuc
         room_type_id: room.room_type_id,
         guest_name: guestName,
         guest_email: guestEmail,
-        check_in_date: room.nightly_breakdown[0]?.date || new Date().toISOString().split('T')[0],
-        check_out_date:
-          room.nightly_breakdown[room.nightly_breakdown.length - 1]?.date ||
-          new Date(Date.now() + 86400000).toISOString().split('T')[0],
+        check_in_date: checkInDate,
+        check_out_date: checkOutDate,
         guest_count: guestCount,
       });
 
       setConfirmedReservation(res);
       onSuccess();
-    } catch (err: any) {
-      const msg = err.response?.data?.detail || 'Booking failed. Please try another room or date.';
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { detail?: unknown } } };
+      const detail = axiosErr.response?.data?.detail;
+      // FastAPI 422 returns detail as an array of objects
+      let msg: string;
+      if (Array.isArray(detail)) {
+        msg = detail.map((d: { msg?: string }) => d.msg || String(d)).join('; ');
+      } else if (typeof detail === 'string') {
+        msg = detail;
+      } else {
+        msg = 'Booking failed. Please try another room or date.';
+      }
       setErrorMsg(msg);
     } finally {
       setIsLoading(false);

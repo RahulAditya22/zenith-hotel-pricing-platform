@@ -155,6 +155,8 @@ export const App: React.FC = () => {
       {selectedBookingRoom && (
         <BookingModal
           room={selectedBookingRoom}
+          checkInDate={checkInDate}
+          checkOutDate={checkOutDate}
           onClose={() => setSelectedBookingRoom(null)}
           onSuccess={() => {
             handleSearch();

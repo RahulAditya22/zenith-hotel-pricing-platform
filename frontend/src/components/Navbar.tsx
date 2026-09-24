@@ -71,7 +71,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab }) => {
         {/* Action Links */}
         <div className="flex items-center space-x-3">
           <a
-            href="/docs"
+            href={`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/docs`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3.5 py-2 rounded-lg transition-colors"

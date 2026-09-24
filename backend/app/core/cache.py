@@ -1,3 +1,5 @@
+"""Caching abstraction with Redis and in-memory backends."""
+
 import asyncio
 import json
 import logging
@@ -16,7 +18,9 @@ class BaseCache(ABC):
         pass
 
     @abstractmethod
-    async def set(self, key: str, value: Any, ttl: int = 300) -> None:
+    async def set(
+        self, key: str, value: Any, ttl: int = 300,
+    ) -> None:
         pass
 
     @abstractmethod
@@ -30,8 +34,12 @@ class BaseCache(ABC):
 
 class InMemoryCache(BaseCache):
     """
-    Thread-safe, async in-memory cache with TTL support.
-    Used as fallback when Redis is not configured or unavailable.
+    Async in-memory cache with TTL support.
+
+    Used as fallback when Redis is unavailable.
+
+    Note: this cache is process-local and is NOT shared
+    across multiple workers or replicas.
     """
 
     def __init__(self) -> None:
@@ -46,14 +54,23 @@ class InMemoryCache(BaseCache):
             if time.time() > expires_at:
                 del self._store[key]
                 return None
-            return json.loads(val) if isinstance(val, str) else val
+            if isinstance(val, str):
+                try:
+                    return json.loads(val)
+                except json.JSONDecodeError:
+                    return val
+            return val
 
-    async def set(self, key: str, value: Any, ttl: int = 300) -> None:
+    async def set(
+        self, key: str, value: Any, ttl: int = 300,
+    ) -> None:
         async with self._lock:
             expires_at = time.time() + ttl
             serialized = (
                 json.dumps(value)
-                if not isinstance(value, (int, float, str, bool, type(None)))
+                if not isinstance(
+                    value, (int, float, str, bool, type(None))
+                )
                 else value
             )
             self._store[key] = (serialized, expires_at)
@@ -68,14 +85,14 @@ class InMemoryCache(BaseCache):
 
 
 class RedisCache(BaseCache):
-    """
-    Redis implementation using redis.asyncio client.
-    """
+    """Redis-backed cache using redis.asyncio."""
 
     def __init__(self, redis_url: str) -> None:
         import redis.asyncio as aioredis
 
-        self._client = aioredis.from_url(redis_url, decode_responses=True)
+        self._client = aioredis.from_url(
+            redis_url, decode_responses=True,
+        )
 
     async def get(self, key: str) -> Optional[Any]:
         try:
@@ -87,31 +104,37 @@ class RedisCache(BaseCache):
             except json.JSONDecodeError:
                 return val
         except Exception as e:
-            logger.warning(f"Redis get failed: {e}. Falling back to cache miss.")
+            logger.warning(
+                "Redis get failed: %s. Cache miss.", e,
+            )
             return None
 
-    async def set(self, key: str, value: Any, ttl: int = 300) -> None:
+    async def set(
+        self, key: str, value: Any, ttl: int = 300,
+    ) -> None:
         try:
             serialized = (
                 json.dumps(value)
-                if not isinstance(value, (int, float, str, bool, type(None)))
+                if not isinstance(
+                    value, (int, float, str, bool, type(None))
+                )
                 else value
             )
             await self._client.set(key, serialized, ex=ttl)
         except Exception as e:
-            logger.warning(f"Redis set failed: {e}")
+            logger.warning("Redis set failed: %s", e)
 
     async def delete(self, key: str) -> None:
         try:
             await self._client.delete(key)
         except Exception as e:
-            logger.warning(f"Redis delete failed: {e}")
+            logger.warning("Redis delete failed: %s", e)
 
     async def clear(self) -> None:
         try:
             await self._client.flushdb()
         except Exception as e:
-            logger.warning(f"Redis clear failed: {e}")
+            logger.warning("Redis clear failed: %s", e)
 
 
 # Singleton cache instance
@@ -124,11 +147,17 @@ def get_cache() -> BaseCache:
         if settings.REDIS_URL:
             try:
                 _cache_instance = RedisCache(settings.REDIS_URL)
-                logger.info("Initialized Redis cache layer.")
+                logger.info("Initialized Redis cache.")
             except Exception as e:
-                logger.warning(f"Failed to initialize Redis ({e}), using InMemoryCache fallback.")
+                logger.warning(
+                    "Redis init failed (%s), "
+                    "using InMemoryCache.",
+                    e,
+                )
                 _cache_instance = InMemoryCache()
         else:
-            logger.info("No REDIS_URL provided. Initialized clean InMemoryCache layer.")
+            logger.info(
+                "No REDIS_URL. Using InMemoryCache.",
+            )
             _cache_instance = InMemoryCache()
     return _cache_instance

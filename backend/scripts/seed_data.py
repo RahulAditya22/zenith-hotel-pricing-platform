@@ -1,10 +1,14 @@
+"""Seed script for Zenith Hotel Pricing Engine demo data."""
+
 import asyncio
 import os
 import sys
 from datetime import date, timedelta
 
 # Ensure parent directory is on sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+)
 
 from app.core.database import AsyncSessionLocal, Base, engine
 from app.models.domain import DemandEvent, Property, Reservation, RoomType
@@ -13,7 +17,10 @@ PROPERTIES_DATA = [
     {
         "name": "Zenith Ocean Resort & Spa",
         "slug": "zenith-ocean-resort-miami",
-        "description": "Exclusive oceanfront sanctuary in South Beach featuring private cabanas, infinity pools, and world-class dining.",
+        "description": (
+            "Exclusive oceanfront sanctuary in South Beach featuring"
+            " private cabanas, infinity pools, and world-class dining."
+        ),
         "city": "Miami",
         "state": "FL",
         "country": "USA",
@@ -21,35 +28,62 @@ PROPERTIES_DATA = [
         "star_rating": 5.0,
         "review_score": 9.4,
         "review_count": 320,
-        "image_url": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80",
-        "amenities": "Oceanfront,Infinity Pool,Luxury Spa,Private Beach,Fine Dining,Valet Parking",
+        "image_url": (
+            "https://images.unsplash.com/photo-1566073771259"
+            "-6a8506099945?auto=format&fit=crop&w=1200&q=80"
+        ),
+        "amenities": (
+            "Oceanfront,Infinity Pool,Luxury Spa,"
+            "Private Beach,Fine Dining,Valet Parking"
+        ),
         "room_types": [
             {
                 "name": "Ocean King Suite",
                 "code": "MIAMI_OCEAN_KING",
-                "description": "Floor-to-ceiling glass walls overlooking the Atlantic Ocean, private balcony, marble bath.",
+                "description": (
+                    "Floor-to-ceiling glass walls overlooking the"
+                    " Atlantic Ocean, private balcony, marble bath."
+                ),
                 "base_price": 380.0,
                 "total_rooms": 12,
                 "max_occupancy": 2,
-                "amenities": "Balcony,King Bed,Ocean View,Nespresso Machine,Soaking Tub",
-                "image_url": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1000&q=80",
+                "amenities": (
+                    "Balcony,King Bed,Ocean View,"
+                    "Nespresso Machine,Soaking Tub"
+                ),
+                "image_url": (
+                    "https://images.unsplash.com/photo-1582719478250"
+                    "-c89cae4dc85b?auto=format&fit=crop&w=1000&q=80"
+                ),
             },
             {
                 "name": "Deluxe Double Queen",
                 "code": "MIAMI_DELUXE_QUEEN",
-                "description": "Spacious sanctuary for families or groups with dual queen beds and tropical garden views.",
+                "description": (
+                    "Spacious sanctuary for families or groups"
+                    " with dual queen beds and tropical garden views."
+                ),
                 "base_price": 260.0,
                 "total_rooms": 18,
                 "max_occupancy": 4,
-                "amenities": "Garden View,2 Queen Beds,Smart TV,Work Desk,Mini Bar",
-                "image_url": "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1000&q=80",
+                "amenities": (
+                    "Garden View,2 Queen Beds,"
+                    "Smart TV,Work Desk,Mini Bar"
+                ),
+                "image_url": (
+                    "https://images.unsplash.com/photo-1618773928121"
+                    "-c32242e63f39?auto=format&fit=crop&w=1000&q=80"
+                ),
             },
         ],
     },
     {
         "name": "The Grand Zenith Tower",
         "slug": "grand-zenith-tower-nyc",
-        "description": "Architectural masterpiece in Midtown Manhattan offering panoramic Central Park views and white-glove service.",
+        "description": (
+            "Architectural masterpiece in Midtown Manhattan offering"
+            " panoramic Central Park views and white-glove service."
+        ),
         "city": "New York",
         "state": "NY",
         "country": "USA",
@@ -57,35 +91,63 @@ PROPERTIES_DATA = [
         "star_rating": 4.9,
         "review_score": 9.1,
         "review_count": 512,
-        "image_url": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
-        "amenities": "Sky Lounge,Rooftop Bar,Fitness Center,Concierge,Meeting Rooms,Pet Friendly",
+        "image_url": (
+            "https://images.unsplash.com/photo-1542314831"
+            "-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80"
+        ),
+        "amenities": (
+            "Sky Lounge,Rooftop Bar,Fitness Center,"
+            "Concierge,Meeting Rooms,Pet Friendly"
+        ),
         "room_types": [
             {
                 "name": "Manhattan Skyline Suite",
                 "code": "NYC_SKYLINE_SUITE",
-                "description": "High-floor luxury suite with sprawling views of Manhattan's iconic skyline.",
+                "description": (
+                    "High-floor luxury suite with sprawling"
+                    " views of Manhattan's iconic skyline."
+                ),
                 "base_price": 450.0,
                 "total_rooms": 10,
                 "max_occupancy": 2,
-                "amenities": "Skyline View,King Bed,Executive Lounge Access,High-speed WiFi",
-                "image_url": "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1000&q=80",
+                "amenities": (
+                    "Skyline View,King Bed,"
+                    "Executive Lounge Access,High-speed WiFi"
+                ),
+                "image_url": (
+                    "https://images.unsplash.com/photo-1590490360182"
+                    "-c33d57733427?auto=format&fit=crop&w=1000&q=80"
+                ),
             },
             {
                 "name": "Superior City Room",
                 "code": "NYC_SUPERIOR_ROOM",
-                "description": "Sleek contemporary design optimized for modern business travelers and urban explorers.",
+                "description": (
+                    "Sleek contemporary design optimized for modern"
+                    " business travelers and urban explorers."
+                ),
                 "base_price": 290.0,
                 "total_rooms": 25,
                 "max_occupancy": 2,
-                "amenities": "City View,Queen Bed,Ergonomic Desk,Rain Shower",
-                "image_url": "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1000&q=80",
+                "amenities": (
+                    "City View,Queen Bed,"
+                    "Ergonomic Desk,Rain Shower"
+                ),
+                "image_url": (
+                    "https://images.unsplash.com/photo-1631049307264"
+                    "-da0ec9d70304?auto=format&fit=crop&w=1000&q=80"
+                ),
             },
         ],
     },
     {
         "name": "Zenith Garden Retreat Tokyo",
         "slug": "zenith-garden-retreat-tokyo",
-        "description": "Serene Japanese garden oasis located in Roppongi, combining traditional Omotenashi hospitality with modern minimalist luxury.",
+        "description": (
+            "Serene Japanese garden oasis located in Roppongi,"
+            " combining traditional Omotenashi hospitality"
+            " with modern minimalist luxury."
+        ),
         "city": "Tokyo",
         "state": "Tokyo",
         "country": "Japan",
@@ -93,35 +155,65 @@ PROPERTIES_DATA = [
         "star_rating": 5.0,
         "review_score": 9.6,
         "review_count": 280,
-        "image_url": "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1200&q=80",
-        "amenities": "Onsen Thermal Bath,Zen Garden,Michelin Star Restaurant,Tea Ceremony Room,Airport Transfer",
+        "image_url": (
+            "https://images.unsplash.com/photo-1503899036084"
+            "-c55cdd92da26?auto=format&fit=crop&w=1200&q=80"
+        ),
+        "amenities": (
+            "Onsen Thermal Bath,Zen Garden,"
+            "Michelin Star Restaurant,"
+            "Tea Ceremony Room,Airport Transfer"
+        ),
         "room_types": [
             {
                 "name": "Traditional Deluxe Tatami Suite",
                 "code": "TOKYO_TATAMI_SUITE",
-                "description": "Authentic Igusa tatami flooring, premium futon/western hybrid bedding, private hinoki cypress tub.",
+                "description": (
+                    "Authentic Igusa tatami flooring, premium"
+                    " futon/western hybrid bedding,"
+                    " private hinoki cypress tub."
+                ),
                 "base_price": 420.0,
                 "total_rooms": 8,
                 "max_occupancy": 3,
-                "amenities": "Hinoki Tub,Garden View,Tea Set,Yukata Robes,Yukata Amenities",
-                "image_url": "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1000&q=80",
+                "amenities": (
+                    "Hinoki Tub,Garden View,"
+                    "Tea Set,Yukata Robes,Yukata Amenities"
+                ),
+                "image_url": (
+                    "https://images.unsplash.com/photo-1578683010236"
+                    "-d716f9a3f461?auto=format&fit=crop&w=1000&q=80"
+                ),
             },
             {
                 "name": "Roppongi Skyline Deluxe",
                 "code": "TOKYO_SKYLINE_DELUXE",
-                "description": "Sophisticated high-rise sanctuary with views of Tokyo Tower and Mount Fuji on clear days.",
+                "description": (
+                    "Sophisticated high-rise sanctuary with views"
+                    " of Tokyo Tower and Mount Fuji on clear days."
+                ),
                 "base_price": 310.0,
                 "total_rooms": 15,
                 "max_occupancy": 2,
-                "amenities": "Tokyo Tower View,King Bed,Bose Sound System,Air Purifier",
-                "image_url": "https://images.unsplash.com/photo-1591088398332-8a7791972843?auto=format&fit=crop&w=1000&q=80",
+                "amenities": (
+                    "Tokyo Tower View,King Bed,"
+                    "Bose Sound System,Air Purifier"
+                ),
+                "image_url": (
+                    "https://images.unsplash.com/photo-1591088398332"
+                    "-8a7791972843?auto=format&fit=crop&w=1000&q=80"
+                ),
             },
         ],
     },
     {
         "name": "Château Zenith Paris",
         "slug": "chateau-zenith-paris",
-        "description": "Historic Haussmannian palace hotel along the Champs-Élysées featuring ornate frescoes and crystal chandeliers.",
+        "description": (
+            "Historic Haussmannian palace hotel along the"
+            " Champs-Élysées featuring ornate frescoes"
+            " and crystal chandeliers."
+        ),
         "city": "Paris",
         "state": "Île-de-France",
         "country": "France",
@@ -129,35 +221,63 @@ PROPERTIES_DATA = [
         "star_rating": 5.0,
         "review_score": 9.5,
         "review_count": 410,
-        "image_url": "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=80",
-        "amenities": "Eiffel Tower View,Dior Spa,Champagne Bar,Sommelier Service,Courtyard Garden",
+        "image_url": (
+            "https://images.unsplash.com/photo-1551882547"
+            "-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=80"
+        ),
+        "amenities": (
+            "Eiffel Tower View,Dior Spa,Champagne Bar,"
+            "Sommelier Service,Courtyard Garden"
+        ),
         "room_types": [
             {
                 "name": "Eiffel Tower Balcony Suite",
                 "code": "PARIS_EIFFEL_SUITE",
-                "description": "Romantic balcony suite boasting direct, unobstructed views of the Eiffel Tower.",
+                "description": (
+                    "Romantic balcony suite boasting direct,"
+                    " unobstructed views of the Eiffel Tower."
+                ),
                 "base_price": 520.0,
                 "total_rooms": 6,
                 "max_occupancy": 2,
-                "amenities": "Eiffel Balcony,French Breakfast Included,Hermès Toiletries,Fireplace",
-                "image_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80",
+                "amenities": (
+                    "Eiffel Balcony,French Breakfast Included,"
+                    "Hermès Toiletries,Fireplace"
+                ),
+                "image_url": (
+                    "https://images.unsplash.com/photo-1600585154340"
+                    "-be6161a56a0c?auto=format&fit=crop&w=1000&q=80"
+                ),
             },
             {
                 "name": "Montaigne Deluxe Room",
                 "code": "PARIS_MONTAIGNE_DELUXE",
-                "description": "Elegant Parisian chic room overlooking fashion houses of Avenue Montaigne.",
+                "description": (
+                    "Elegant Parisian chic room overlooking"
+                    " fashion houses of Avenue Montaigne."
+                ),
                 "base_price": 340.0,
                 "total_rooms": 14,
                 "max_occupancy": 2,
-                "amenities": "Street View,Queen Bed,Espresso Bar,Marble Bath",
-                "image_url": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1000&q=80",
+                "amenities": (
+                    "Street View,Queen Bed,"
+                    "Espresso Bar,Marble Bath"
+                ),
+                "image_url": (
+                    "https://images.unsplash.com/photo-1560448204"
+                    "-e02f11c3d0e2?auto=format&fit=crop&w=1000&q=80"
+                ),
             },
         ],
     },
     {
         "name": "Zenith Alpine Lodge & Chalet",
         "slug": "zenith-alpine-lodge-aspen",
-        "description": "Ski-in/ski-out luxury mountain resort in Aspen with heated outdoor pools and crackling wood-burning fireplaces.",
+        "description": (
+            "Ski-in/ski-out luxury mountain resort in Aspen"
+            " with heated outdoor pools and crackling"
+            " wood-burning fireplaces."
+        ),
         "city": "Aspen",
         "state": "CO",
         "country": "USA",
@@ -165,18 +285,33 @@ PROPERTIES_DATA = [
         "star_rating": 4.8,
         "review_score": 9.3,
         "review_count": 190,
-        "image_url": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
-        "amenities": "Ski Valet,Heated Pool,Outdoor Hot Tubs,Alpine Spa,Whiskey Lounge,Shuttle Service",
+        "image_url": (
+            "https://images.unsplash.com/photo-1542314831"
+            "-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80"
+        ),
+        "amenities": (
+            "Ski Valet,Heated Pool,Outdoor Hot Tubs,"
+            "Alpine Spa,Whiskey Lounge,Shuttle Service"
+        ),
         "room_types": [
             {
                 "name": "Mountain View Chalet Suite",
                 "code": "ASPEN_CHALET_SUITE",
-                "description": "Timber-framed alpine chalet suite with private hot tub balcony and wood fireplace.",
+                "description": (
+                    "Timber-framed alpine chalet suite with"
+                    " private hot tub balcony and wood fireplace."
+                ),
                 "base_price": 490.0,
                 "total_rooms": 8,
                 "max_occupancy": 4,
-                "amenities": "Wood Fireplace,Private Balcony,Ski Storage,Soaking Tub",
-                "image_url": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1000&q=80",
+                "amenities": (
+                    "Wood Fireplace,Private Balcony,"
+                    "Ski Storage,Soaking Tub"
+                ),
+                "image_url": (
+                    "https://images.unsplash.com/photo-1512917774080"
+                    "-9991f1c4c750?auto=format&fit=crop&w=1000&q=80"
+                ),
             }
         ],
     },
@@ -213,8 +348,16 @@ DEMAND_EVENTS_DATA = [
     },
 ]
 
+SAMPLE_GUESTS = [
+    ("Alexander Wright", "alex.w@example.com"),
+    ("Sophia Chen", "sophia.c@example.com"),
+    ("Marcus Aurelius", "marcus.a@example.com"),
+    ("Elena Rostova", "elena.r@example.com"),
+]
 
-async def seed_database():
+
+async def seed_database() -> None:
+    """Populate the database with realistic hotel demo data."""
     print("Initializing Database tables...")
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
@@ -222,11 +365,16 @@ async def seed_database():
 
     async with AsyncSessionLocal() as session:
         print("Seeding properties & room types...")
-        created_room_types = []
+        created_room_types: list[RoomType] = []
 
         for p_data in PROPERTIES_DATA:
-            room_types_data = p_data.pop("room_types")
-            prop = Property(**p_data)
+            # Use a copy to avoid mutating the module-level constant
+            prop_dict = {
+                k: v for k, v in p_data.items() if k != "room_types"
+            }
+            room_types_data = p_data["room_types"]
+
+            prop = Property(**prop_dict)
             session.add(prop)
             await session.flush()
 
@@ -239,31 +387,25 @@ async def seed_database():
         print("Seeding demand events...")
         today = date.today()
         for e_data in DEMAND_EVENTS_DATA:
+            start = today + timedelta(days=e_data["start_offset"])
+            end = start + timedelta(days=e_data["duration"])
             event = DemandEvent(
                 city=e_data["city"],
                 name=e_data["name"],
-                start_date=today + timedelta(days=e_data["start_offset"]),
-                end_date=today + timedelta(days=e_data["start_offset"] + e_data["duration"]),
+                start_date=start,
+                end_date=end,
                 multiplier=e_data["multiplier"],
             )
             session.add(event)
 
-        print("Seeding realistic sample reservations for occupancy calculations...")
-        # Create some pre-existing reservations to trigger occupancy-based dynamic pricing
-        sample_guests = [
-            ("Alexander Wright", "alex.w@example.com"),
-            ("Sophia Chen", "sophia.c@example.com"),
-            ("Marcus Aurelius", "marcus.a@example.com"),
-            ("Elena Rostova", "elena.r@example.com"),
-        ]
-
+        print("Seeding sample reservations for occupancy data...")
         for i, room in enumerate(created_room_types):
-            # Add reservations for the upcoming week
+            guest = SAMPLE_GUESTS[i % len(SAMPLE_GUESTS)]
             res1 = Reservation(
                 reservation_code=f"ZEN-SEED{i}A",
                 room_type_id=room.id,
-                guest_name=sample_guests[i % len(sample_guests)][0],
-                guest_email=sample_guests[i % len(sample_guests)][1],
+                guest_name=guest[0],
+                guest_email=guest[1],
                 check_in_date=today + timedelta(days=2),
                 check_out_date=today + timedelta(days=6),
                 guest_count=2,
@@ -273,7 +415,7 @@ async def seed_database():
             )
             session.add(res1)
 
-            # High occupancy for certain rooms
+            # High occupancy for alternating rooms
             if i % 2 == 0:
                 res2 = Reservation(
                     reservation_code=f"ZEN-SEED{i}B",
@@ -291,7 +433,8 @@ async def seed_database():
 
         await session.commit()
         print(
-            "Database successfully seeded with realistic property, room, event, and reservation data!"
+            "Database seeded with property, room,"
+            " event, and reservation data!"
         )
 
 

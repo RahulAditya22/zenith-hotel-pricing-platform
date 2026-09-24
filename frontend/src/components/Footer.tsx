@@ -29,7 +29,7 @@ export const Footer: React.FC = () => {
         {/* Links */}
         <div className="flex items-center space-x-4 text-xs font-semibold">
           <a
-            href="/docs"
+            href={`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/docs`}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-white flex items-center gap-1 transition-colors"

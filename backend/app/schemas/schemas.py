@@ -1,29 +1,57 @@
+"""Pydantic v2 request/response schemas."""
+
 from datetime import date, datetime
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
+# ── Property ──────────────────────────────────────────
 
-# Property Schemas
+
 class PropertyBase(BaseModel):
-    name: str = Field(..., json_schema_extra={"example": "Zenith Grand Resort & Spa"})
-    description: str = Field(
-        ..., json_schema_extra={"example": "Luxury oceanfront resort with top-tier amenities."}
+    name: str = Field(
+        ...,
+        json_schema_extra={
+            "example": "Zenith Grand Resort & Spa",
+        },
     )
-    city: str = Field(..., json_schema_extra={"example": "Miami"})
-    state: Optional[str] = Field(None, json_schema_extra={"example": "FL"})
-    country: str = Field("USA", json_schema_extra={"example": "USA"})
-    address: str = Field(..., json_schema_extra={"example": "100 Ocean Drive"})
+    description: str = Field(
+        ...,
+        json_schema_extra={
+            "example": (
+                "Luxury oceanfront resort"
+                " with top-tier amenities."
+            ),
+        },
+    )
+    city: str = Field(
+        ..., json_schema_extra={"example": "Miami"},
+    )
+    state: Optional[str] = Field(
+        None, json_schema_extra={"example": "FL"},
+    )
+    country: str = Field(
+        "USA", json_schema_extra={"example": "USA"},
+    )
+    address: str = Field(
+        ...,
+        json_schema_extra={"example": "100 Ocean Drive"},
+    )
     star_rating: float = Field(5.0, ge=1.0, le=5.0)
     review_score: float = Field(9.2, ge=1.0, le=10.0)
     review_count: int = Field(150, ge=0)
     image_url: str = Field(
         ...,
         json_schema_extra={
-            "example": "https://images.unsplash.com/photo-1566073771259-6a8506099945"
+            "example": (
+                "https://images.unsplash.com/"
+                "photo-1566073771259-6a8506099945"
+            ),
         },
     )
-    amenities: str = Field("WiFi,Pool,Spa,Gym,Restaurant")
+    amenities: str = Field(
+        "WiFi,Pool,Spa,Gym,Restaurant",
+    )
 
 
 class PropertyCreate(PropertyBase):
@@ -38,21 +66,48 @@ class PropertyResponse(PropertyBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-# RoomType Schemas
+# ── Room Type ─────────────────────────────────────────
+
+
 class RoomTypeBase(BaseModel):
-    name: str = Field(..., json_schema_extra={"example": "Deluxe Ocean Suite"})
-    code: str = Field(..., json_schema_extra={"example": "DELUXE_OCEAN"})
-    description: str = Field(
-        ..., json_schema_extra={"example": "Spacious suite with floor-to-ceiling sea views."}
+    name: str = Field(
+        ...,
+        json_schema_extra={
+            "example": "Deluxe Ocean Suite",
+        },
     )
-    base_price: float = Field(..., gt=0, json_schema_extra={"example": 250.00})
-    total_rooms: int = Field(..., gt=0, json_schema_extra={"example": 10})
-    max_occupancy: int = Field(2, gt=0, json_schema_extra={"example": 2})
-    amenities: str = Field("Balcony,King Bed,Sea View,Mini Bar")
+    code: str = Field(
+        ...,
+        json_schema_extra={"example": "DELUXE_OCEAN"},
+    )
+    description: str = Field(
+        ...,
+        json_schema_extra={
+            "example": (
+                "Spacious suite with floor-to-ceiling"
+                " sea views."
+            ),
+        },
+    )
+    base_price: float = Field(
+        ..., gt=0, json_schema_extra={"example": 250.00},
+    )
+    total_rooms: int = Field(
+        ..., gt=0, json_schema_extra={"example": 10},
+    )
+    max_occupancy: int = Field(
+        2, gt=0, json_schema_extra={"example": 2},
+    )
+    amenities: str = Field(
+        "Balcony,King Bed,Sea View,Mini Bar",
+    )
     image_url: str = Field(
         ...,
         json_schema_extra={
-            "example": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b"
+            "example": (
+                "https://images.unsplash.com/"
+                "photo-1582719478250-c89cae4dc85b"
+            ),
         },
     )
 
@@ -69,7 +124,9 @@ class RoomTypeResponse(RoomTypeBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-# Dynamic Pricing Factor Breakdown Schema
+# ── Pricing Breakdown ─────────────────────────────────
+
+
 class PricingBreakdown(BaseModel):
     date: date
     base_price: float
@@ -86,7 +143,9 @@ class PricingBreakdown(BaseModel):
     explanation: str
 
 
-# Search Result Item Schema
+# ── Search Results ────────────────────────────────────
+
+
 class RoomSearchResult(BaseModel):
     property_id: int
     property_name: str
@@ -95,7 +154,7 @@ class RoomSearchResult(BaseModel):
     review_score: float
     review_count: int
     property_image_url: str
-    property_amenities: List[str]
+    property_amenities: list[str]
 
     room_type_id: int
     room_name: str
@@ -110,14 +169,21 @@ class RoomSearchResult(BaseModel):
     base_nightly_price: float
     value_score: float
 
-    nightly_breakdown: List[PricingBreakdown]
+    nightly_breakdown: list[PricingBreakdown]
 
 
-# Reservation Schemas
+# ── Reservation ───────────────────────────────────────
+
+
 class ReservationCreate(BaseModel):
     room_type_id: int = Field(..., gt=0)
     guest_name: str = Field(..., min_length=2)
-    guest_email: EmailStr = Field(..., json_schema_extra={"example": "guest@example.com"})
+    guest_email: EmailStr = Field(
+        ...,
+        json_schema_extra={
+            "example": "guest@example.com",
+        },
+    )
     check_in_date: date
     check_out_date: date
     guest_count: int = Field(1, gt=0)
@@ -140,7 +206,9 @@ class ReservationResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-# Price Trend Query & Response Schemas
+# ── Price Trend ───────────────────────────────────────
+
+
 class PriceTrendPoint(BaseModel):
     date: date
     day_name: str
@@ -162,4 +230,4 @@ class PriceTrendResponse(BaseModel):
     base_price: float
     start_date: date
     end_date: date
-    points: List[PriceTrendPoint]
+    points: list[PriceTrendPoint]
