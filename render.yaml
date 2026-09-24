@@ -17,8 +17,9 @@ services:
         value: "*"
 
   # Frontend Static Site (React + Vite)
-  - type: static
+  - type: web
     name: zenith-frontend
+    env: static
     region: oregon
     plan: free
     rootDir: frontend
